@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis - Food Vision</title>
+    <link rel="icon" href="/logo1.jpg" type="image/jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #FFDEE9, #B5FFFC); /* Mixed gradient background */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .frame {
+            background-color: #ffffff;
+            height: 20px;
+            width: 100%;
+        }
+
+        .green-line {
+            background-color: #3C6255;
+            height: 4px;
+            width: 100%;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3C6255;
+            color: #FFFFFF;
+            padding: 20px 40px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .top-bar .logo-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .top-bar .logo-container img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .top-bar .logo-container .logo-text {
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .top-bar .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .top-bar .user-info i {
+            margin-right: 10px;
+            color: black;
+        }
+
+        .top-bar .user-info a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .top-bar .user-info a:hover {
+            text-decoration: underline;
+            color: #87DFD6;
+        }
+
+        .analysis-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .analysis-content {
+            width: 80%;
+            background-color: white; /* White background for content */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .analysis-content h2 {
+            color: black;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #3C6255;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #87DFD6;
+        }
+
+        canvas {
+            max-width: 90%;
+            margin: 20px auto;
+            background-color: white; /* Set background of the chart area to white */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Frame -->
+    <div class="frame"></div>
+
+    <!-- Top Bar with Logo, User Info, and Logout -->
+    <div class="top-bar">
+        <div class="logo-container">
+            <img src="/logo1.jpg" alt="Food Vision Logo">
+            <div class="logo-text">FoodVision</div>
+        </div>
+        <div class="user-info">
+            <i class="fas fa-user"></i>
+            <span id="username">Admin</span>
+            <a href="/index.html">Logout</a>
+        </div>
+    </div>
+
+    <!-- Green horizontal line -->
+    <div class="green-line"></div>
+
+    <!-- Analysis Section -->
+    <div class="analysis-container">
+        <div class="analysis-content">
+            <h2>Food Analysis Based on Feedback</h2>
+            <p>Here, you will find separate graphs for each meal type: Breakfast, Lunch, Dinner, and Snacks.</p>
+
+            <!-- Breakfast Bar Chart -->
+            <div>
+                <h3>Breakfast Ratings</h3>
+                <canvas id="breakfastChart"></canvas>
+            </div>
+
+            <!-- Lunch Bar Chart -->
+            <div>
+                <h3>Lunch Ratings</h3>
+                <canvas id="lunchChart"></canvas>
+            </div>
+
+            <!-- Dinner Bar Chart -->
+            <div>
+                <h3>Dinner Ratings</h3>
+                <canvas id="dinnerChart"></canvas>
+            </div>
+
+            <!-- Snacks Bar Chart -->
+            <div>
+                <h3>Snacks Ratings</h3>
+                <canvas id="snacksChart"></canvas>
+            </div>
+
+            <!-- Back Button -->
+            <a href="home.html" class="back-button">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bottom Frame -->
+    <div class="frame"></div>
+
+    <script>
+        // Breakfast Chart
+        var breakfastCtx = document.getElementById('breakfastChart').getContext('2d');
+        var breakfastChart = new Chart(breakfastCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Excellent', 'Good', 'Average', 'Poor'],
+                datasets: [{
+                    label: 'Breakfast Ratings',
+                    data: [25, 40, 20, 15], // Replace with dynamic data
+                    backgroundColor: '#FF5F6D', // Mixed pastel red/pink for warmth
+                    borderColor: '#FF5F6D',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Lunch Chart
+        var lunchCtx = document.getElementById('lunchChart').getContext('2d');
+        var lunchChart = new Chart(lunchCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Excellent', 'Good', 'Average', 'Poor'],
+                datasets: [{
+                    label: 'Lunch Ratings',
+                    data: [30, 45, 15, 10], // Replace with dynamic data
+                    backgroundColor: '#00B0B9', // Soft teal
+                    borderColor: '#00B0B9',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Dinner Chart - Updated Color
+        var dinnerCtx = document.getElementById('dinnerChart').getContext('2d');
+        var dinnerChart = new Chart(dinnerCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Excellent', 'Good', 'Average', 'Poor'],
+                datasets: [{
+                    label: 'Dinner Ratings',
+                    data: [40, 35, 15, 10], // Replace with dynamic data
+                    backgroundColor: '#FF9F5F', // Rich orange for better visibility
+                    borderColor: '#FF9F5F',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Snacks Chart - Updated Color
+        var snacksCtx = document.getElementById('snacksChart').getContext('2d');
+        var snacksChart = new Chart(snacksCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Excellent', 'Good', 'Average', 'Poor'],
+                datasets: [{
+                    label: 'Snacks Ratings',
+                    data: [35, 40, 15, 10], // Replace with dynamic data
+                    backgroundColor: '#4CAF50', // Deep green for a stronger look
+                    borderColor: '#4CAF50',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+<script>
+        // Retrieve the username from localStorage and display it
+        const username = localStorage.getItem("admin");
+        document.getElementById("username").innerText = username;
+    </script>
+</body>
+</html>
